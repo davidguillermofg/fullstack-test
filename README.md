@@ -62,7 +62,7 @@ Sin service worker (sin caché offline).
 
 ## API / Postman
 
-- `postman-collection.json` (raíz) o `docs/postman/Gapsi-eCommerce.postman_collection.json`
+- `postman-collection.json` (raíz)`
 - `GET /api/v1/app/info` → `message`, `version`
 
 ## Estructura
