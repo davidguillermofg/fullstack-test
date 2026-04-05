@@ -62,7 +62,7 @@ Sin service worker (sin caché offline).
 
 ## API / Postman
 
-- `postman-collection.json` (raíz)`
+- `postman-collection.json` (raíz)
 - `GET /api/v1/app/info` → `message`, `version`
 
 ## Estructura
