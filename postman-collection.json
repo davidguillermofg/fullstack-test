@@ -1,0 +1,119 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef0123456789",
+    "name": "Gapsi e-Commerce API",
+    "description": "# Gapsi e-Commerce — API REST\n\nBackend **Spring Boot** (H2 en memoria). Prefijo base: `/api/v1`.\n\n## Configuración\n\n1. En Postman: **Import** → elegir este archivo `postman-collection.json`.\n2. Variable de colección **`baseUrl`**: `http://localhost:8080/api/v1` (ajustar si el servidor usa otro host o puerto).\n3. Variable **`supplierId`**: id para probar **Eliminar proveedor**.\n\n## Convenciones\n\n- **POST:** cabecera `Content-Type: application/json`.\n- **Errores:** cuerpos tipo **Problem Details** (campo `detail`, `title`, `status`).\n\n## Resumen de endpoints\n\n| Método | Ruta | Descripción |\n|--------|------|-------------|\n| GET | `/app/info` | Mensaje de bienvenida **y** versión (una sola respuesta) |\n| GET | `/suppliers` | Listado paginado (`page`, `size`) |\n| POST | `/suppliers` | Crear proveedor (nombre único) |\n| DELETE | `/suppliers/{id}` | Eliminar por id |\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1",
+      "type": "default"
+    },
+    {
+      "key": "supplierId",
+      "value": "1",
+      "type": "default"
+    }
+  ],
+  "item": [
+    {
+      "name": "App",
+      "description": "Información de aplicación: bienvenida y versión en un solo GET.",
+      "item": [
+        {
+          "name": "Info (bienvenida + versión)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/app/info",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "v1", "app", "info"]
+            },
+            "description": "`GET /api/v1/app/info`\n\n**200 OK** — ejemplo:\n```json\n{\n  \"message\": \"Bienvenido Candidato 01\",\n  \"version\": \"0.0.1\"\n}\n```\n\nConfiguración en `application.properties`: `app.welcome-message`, `app.version`."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Proveedores",
+      "description": "Campos: **nombre** (único), **razonSocial**, **direccion**.",
+      "item": [
+        {
+          "name": "Listar (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/suppliers?page=0&size=5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "v1", "suppliers"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0",
+                  "description": "Índice de página (base 0). Default en servidor: 0."
+                },
+                {
+                  "key": "size",
+                  "value": "5",
+                  "description": "Elementos por página (el front usa 5). Default en servidor: 20, máximo 100."
+                }
+              ]
+            },
+            "description": "`GET /api/v1/suppliers?page=&size=`\n\n**200 OK** — respuesta paginada:\n- `content`: array de proveedores (`id`, `nombre`, `razonSocial`, `direccion`)\n- `page`, `size`, `totalElements`, `totalPages`"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear proveedor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Proveedor Demo\",\n  \"razonSocial\": \"Demo S.A. de C.V.\",\n  \"direccion\": \"Calle Falsa 123, Col. Centro\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/suppliers",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "v1", "suppliers"]
+            },
+            "description": "`POST /api/v1/suppliers`\n\nCuerpo JSON con campos obligatorios. **nombre** no puede repetirse (comparación case-insensitive).\n\n**201 Created** — devuelve el proveedor creado.\n**400** — validación (Bean Validation).\n**409** — nombre duplicado."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar proveedor",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/suppliers/{{supplierId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "v1", "suppliers", "{{supplierId}}"]
+            },
+            "description": "`DELETE /api/v1/suppliers/{id}`\n\nUsa la variable de colección **`supplierId`**.\n\n**204 No Content** — eliminado.\n**404** — proveedor no encontrado."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

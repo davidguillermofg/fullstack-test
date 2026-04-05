@@ -1,0 +1,17 @@
+{
+  "name": "e-Commerce Gapsi",
+  "short_name": "Gapsi",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#1565c0",
+  "description": "Mantenimiento de proveedores — examen práctico",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
